@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{% block content %}
+<style>
+    .img-container{
+        text-align: center;
+        display: block;
+        background-color:lightgray;
+    }
+
+</style>
+
+<div class="container mt-5">
+
+    {% for software in software_products %}
+    <div class="card m-3">
+        <div class="row">
+            <div class="col-md-4">
+                <span class="img-container">
+                    <img src="{{software[-1]}}" class="img-fluid" style="max-height:300px;text-align:center">
+                </span>
+            </div>
+            <div class="col-md-8">
+                <h2 class="card-title mt-3" href="#">{{software[1]}}</h2>
+                <p class="card-text"><strong>Rs. {{software[2]}}</strong></p>
+                <p class="card-text">{{software[3]}}</p>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

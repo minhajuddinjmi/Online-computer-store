@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+
+<div class="container">
+    <h2>Login</h2>
+    <form method="POST">
+
+        <div class="from-inline">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" for="email" placeholder="Enter email"
+                   required>
+        </div>
+        <div class="from-inline">
+            <label for="password">Password</label>
+            <input type="text" class="form-control" id="password" name="password" for="password"
+                   placeholder="Enter password" required>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Remember me
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">login</button>
+    </form>
+    <a href="{{url_for('signup')}}">click here for sign up</a>
+</div>
+
+{% endblock %}

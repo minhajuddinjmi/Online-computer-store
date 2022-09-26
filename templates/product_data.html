@@ -1,0 +1,105 @@
+{% extends "index.html" %}
+
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/product_data/product_add" method="POST" enctype="multipart/form-data">
+                    <div class="form-inline">
+                        <label for="productid">Product id</label>
+                        <input type="text" class="form-control" for="productid" name="productid" id="productid"
+                               placeholder="Enter Product id" required>
+                    </div>
+                    <div class="from-inline">
+                        <label for="product_name">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" name="product_name" for="product_name"
+                               placeholder="Enter product name" required>
+                    </div>
+                    <div class="from-inline">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" id="price" name="price" for="price"
+                               placeholder="Enter price" required>
+                    </div>
+                    <div class="from-inline">
+                        <label for="detail">Price</label>
+                        <textarea type="textarea" class="form-control" id="detail" name="detail" for="detail"
+                                  placeholder="Enter detail" required></textarea>
+                    </div>
+                    <div class="from-inline">
+                        <label for="category">Category</label>
+                        <!--<input type="text" class="form-control" id="category" name="category" for="category"
+                               placeholder="Enter category" required>-->
+                        <select name="category" id="category" for="category">
+                            <option value="Hardware">Hardware</option>
+                            <option value="Software">Software</option>
+                        </select>
+                    </div>
+                    <div class="from-inline">
+                        <label for="company_id">Company Id</label>
+                        <input type="text" class="form-control" id="company_id" name="company_id" for="company_id"
+                               placeholder="Enter company id" required>
+                    </div>
+                    <div class="from-inline">
+                        <label for="image">Image</label>
+                        <input type="file" class="form-control" id="image" name="image" for="image"
+                               placeholder="Enter image" required>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Add Product
+    </button>
+
+
+    <div class="jumbotron">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Category</th>
+                <th scope="col">Company</th>
+                <th scope="col">Image</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for product in products %}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{product[0]}}</td>
+                <td>{{product[1]}}</td>
+                <td>{{product[2]}}</td>
+                <td>{{product[3]}}</td>
+                <td>{{product[4]}}</td>
+                <td>{{product[5]}}</td>
+                <td>
+                    <button class="btn btn-danger"> Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
