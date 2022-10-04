@@ -19,7 +19,8 @@ We are provide to better platform to get easily the software and hardware, which
     •	Jinja templates
 3. Framework
   •	Flask
-  Functionalities:
+
+## Functionalities:
 In this ecommerce project, we will provide many functionalities as follows: 
 1.	 Login / Logout
 2.	Admin Panel
@@ -31,6 +32,6 @@ In this ecommerce project, we will provide many functionalities as follows:
 8.	Search by name
 9.	Order place
 10.	Filter option
-    •	By name
-    •	By price
+    * By name
+    * By price
 
