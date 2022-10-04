@@ -7,3 +7,30 @@ Nowadays, India has become digital India because of covid-19 situation, everyone
 
 
 Therefore, we are going to build an online computer store ecommerce website with all software and hardware products related through computers. Everyone can get computer devices easily at an affordable price.
+
+## Technical Requirement:
+We are provide to better platform to get easily the software and hardware, which is related to computers. In this project, we used some technology and languages as follow:
+1. Database
+    •	MySQL database
+2. Language
+    •	Python (Backend)
+    •	JavaScript (for client side validation)  
+    •	Bootstrap (Front-end)
+    •	Jinja templates
+3. Framework
+  •	Flask
+  Functionalities:
+In this ecommerce project, we will provide many functionalities as follows: 
+1.	 Login / Logout
+2.	Admin Panel
+3.	Hardware product
+4.	Software product
+5.	Search by name
+6.	Cart
+7.	Feedback/Comments
+8.	Search by name
+9.	Order place
+10.	Filter option
+    •	By name
+    •	By price
+
