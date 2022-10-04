@@ -11,14 +11,14 @@ Therefore, we are going to build an online computer store ecommerce website with
 ## Technical Requirement:
 We are provide to better platform to get easily the software and hardware, which is related to computers. In this project, we used some technology and languages as follow:
 1. Database
-    •	MySQL database
+    * MySQL database
 2. Language
-    •	Python (Backend)
-    •	JavaScript (for client side validation)  
-    •	Bootstrap (Front-end)
-    •	Jinja templates
+    * Python (Backend)
+    * JavaScript (for client side validation)  
+    * Bootstrap (Front-end)
+    * Jinja templates
 3. Framework
-  •	Flask
+  * Flask
 
 ## Functionalities:
 In this ecommerce project, we will provide many functionalities as follows: 
@@ -30,8 +30,8 @@ In this ecommerce project, we will provide many functionalities as follows:
 6.	Cart
 7.	Feedback/Comments
 8.	Search by name
-9.	Order place
+9.	Order place / Checkout
 10.	Filter option
-    * By name
     * By price
+
 
