@@ -1,0 +1,111 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+
+
+<section class="sproduct my-5 container">
+    <div class="row mt-5">
+        <div class="col-lg-5 col-md-4 col-12">
+            <img src="../{{product_info[0][-1]}}" class="img-fluid w-100">
+        </div>
+
+
+        <div class="col-lg-6 col-md-4 col-12">
+            <h6>Home / Product/ {{product_info[0][4]}} </h6>
+            <h3 class="py-3"> {{product_info[0][1]}}</h3>
+            <h2> Rs. {{product_info[0][2]}}</h2>
+
+            <form method="POST" class="mb-2">
+                <input type="number" value="1" min="1" class="mb-2" max="10" name="quantity" for="quantity"
+                       id="quantity"><br>
+                <button class="buy-btn btn btn-primary" type="submit" id="submit" name="submit">Add To cart</button>
+            </form>
+            <p id="demo" class="alert alert-info alert-dismissible fade show">{{alert}}</p>
+
+
+            <h4 class="mt-5 mb-5">Product detail</h4>
+            <sap>
+                {{product_info[0][3]}}
+            </sap>
+
+        </div>
+
+
+    </div>
+</section>
+
+
+<hr>
+
+
+<!--------------------------Comments------------------------------------------------->
+<div class="container p-2">
+
+    <!-----------------------Post comment--------------------------->
+    {% if username %}
+    <div class="row mb-2">
+        <div class="col-2">
+            <img src="../static/images/Laptop1.jpg" class="img-fluid border-radius-90">
+        </div>
+        <div class="col-10">
+            <form method="GET">
+                <div class="row">
+                    <!--- username----->
+                    <h3 id="username">{{username}}</h3>
+                </div>
+                <div class="row mb-4">
+                        <!---------comment------------>
+                        <input type="text" id="p_id" name="p_id" value="{{product_info[0][0]}}" style="display:none">
+                        <textarea id="comment" name="comment" for="comment">This is so great</textarea>
+
+                </div>
+                <div class="row">
+                    <input type="submit" name="submitComment" id="submitComment" class="btn btn-primary" style="width:100px"></input>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <!--------------------------show top 5 comments----------------------------->
+    <h2 class="mb-4">Top comment by users</h2>
+    {% for comment in comments %}
+    <div class="row mb-2">
+        <div class="col-2">
+            <img src="../static/images/Laptop1.jpg" class="img-fluid circle">
+        </div>
+        <div class="col-10">
+            <div class="row">
+                <!--- username----->
+                <h3>{{comment[0]}}</h3>
+
+                <!--- data --->
+                <p>{{comment[1]}}</p>
+            </div>
+            <div class="row">
+                    <!---------comment------------>
+                    <p>{{comment[2]}}</p>
+
+            </div>
+            <div class="row">
+                <div class="col-1 d-flex">
+                    <button class="btn btn-primary"><span>{{comment[3]}}<!----helpful count--------></span>Helpful
+                    </button>
+                </div>
+                <div class="col-2 d-flex">
+                    <button class="btn btn-danger">Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <div class="container">
+        <a class="link" href="http://127.0.0.1:5000/product/{{product_info[0][0]}}/comments">More comments</a>
+    </div>
+</div>
+
+{% endblock %}

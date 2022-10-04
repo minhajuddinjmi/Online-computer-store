@@ -1,0 +1,116 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-11 max-auto">
+            <div class="row mt-5 gx-3">
+                <!----left side div---->
+
+                <div class="col-md-8 col-lg-r col-11 max-auto main_cart md-lg-0 mb-5 shadow">
+                    <h3 class="py-4 font-weight-bold"> Cart({{number_of_items}}) items</h3>
+                    {% if number_of_items==0 %}
+                    <h4>Go and get shopiing</h4>
+                    {% endif %}
+                    {% for cart in carts %}
+                    <div class="card p-4">
+
+                        <div class="row">
+                            <!------- cart images----->
+                            <div class="col-md-5 col-11 max-auto bg-light shadow d-flex justify-content-center align-item-center">
+                                <img src="../{{cart[3]}}" class="img-fluid" alt="cart_image">
+                            </div>
+
+                            <!-------- cart product detail------------------>
+                            <div class="col-md-7 col-11 mx-auto px-4 mt-2">
+                                <div class="row">
+                                    <div class="col-6 card-title">
+                                        <h3 class="mb-4 product_name">{{cart[0]}}</h3>
+                                        <P class="mb-2">Rs {{cart[1]}}</P>
+                                        <!--<P class="mb-2">COLOR: Black</P>-->
+                                        <P class="mb-3">SIZE: 15.6</P>
+                                    </div>
+
+                                    <!-------quantity--------->
+                                    <div class="col-6 ">
+                                        <ul class="pagination justify-content-end set_quantity">
+                                            <li class="page-item">
+                                                <button class="page-link" onclick="decreaseNumber()"><i
+                                                        class="fas fa-minus"></i></button>
+                                            </li>
+                                            <li class="page-item"><input type="number"
+                                                                         class="page-link justify-content-center"
+                                                                         id="quantity" maxlength="1" min="1" max="5"
+                                                                         value="{{cart[2]}}" disabled></li>
+                                            <li class="page-item">
+                                                <button class="page-link" onclick="increaseNumber()"><i
+                                                        class="fas fa-plus"></i></button>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                                <!----Remove item------>
+                                <div class="row">
+                                    <div class="col-8 d-flex justify-content-between remove_wish">
+                                        <p>
+                                        <form method="POST">
+                                            <input type="text" id="productId" for="productId" name="productId"
+                                                   class="hide" value="{{cart[5]}}" style="display:none;">
+                                            <button type="submit" id="submit" name="submit" class="btn btn-warning"><i
+                                                    class="fas fa-trash"></i> Remove
+                                            </button>
+                                        </form>
+                                        </p>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <p>Rs <span>{{cart[4]}}</span></p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+
+                <!---right side div----->
+                <div class="col-md-12 col-lg-4 col-11 mx-auto mt-lg-0 mt-md-5">
+                    <div class="right_side p-3 shadow bg-light">
+                        <h3 class="mb-5">The total amount of </h3>
+                        <div class="price_indiv d-flex justify-content-between">
+                            <p>Product amount</p>
+                            <p>Rs <span>{{product_sum}}</span></p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Shipping amount</p>
+                            <p>Rs <span>{{shipping}}</span></p>
+                        </div>
+                        <hr>
+                        <div class="price_indiv d-flex justify-content-between">
+                            <p><strong>Total amount</strong></p>
+                            <p>Rs <strong>{{total_sum}}</strong></p>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!---- right side div-------------->
+
+
+{% endblock %}

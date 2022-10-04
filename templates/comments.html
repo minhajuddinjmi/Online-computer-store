@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+
+{% block content %}
+<!--------------------------Comments------------------------------------------------->
+<div class="container p-2">
+
+    <!--------------------------show all comments----------------------------->
+    <h2 class="mb-4">Top comment by users</h2>
+    {% for comment in comments %}
+    <div class="row mb-2">
+        <div class="col-2">
+            <img src="../static/images/Laptop1.jpg" class="img-fluid circle">
+        </div>
+        <div class="col-10">
+            <div class="row">
+                <!--- username----->
+                <h3>{{comment[0]}}</h3>
+
+                <!--- data --->
+                <p>{{comment[1]}}</p>
+            </div>
+            <div class="row">
+                    <!---------comment------------>
+                    <p>{{comment[2]}}</p>
+
+            </div>
+            <div class="row">
+                <div class="col-1 d-flex">
+                    <button class="btn btn-primary"><span>{{comment[3]}}<!----helpful count--------></span>Helpful
+                    </button>
+                </div>
+                <div class="col-2 d-flex">
+                    <button class="btn btn-danger">Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -16,10 +16,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
           integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
           integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
@@ -42,26 +50,42 @@
                     <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/about">About</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                       href="{{url_for('products')}}"
+                       aria-expanded="false">
                         Product
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{url_for('product_hardware')}}">Hardware</a>
-                        <a class="dropdown-item" href="{{url_for('product_software')}}">Software</a>
+                        <a class="dropdown-item" href="/products_data/hardware">Hardware</a>
+                        <a class="dropdown-item" href="/products_data/software">Software</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Disabled</a>
+                    <a class="nav-link" href="/contactus">Contact us</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form action="/search" class="d-flex" role="search" method="POST">
+                <!--<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" for="search"
+                       id="search" name="search">-->
+                <input type="text" class="form-control me-2" id="email" name="search" for="search"
+                       placeholder="Enter search">
+
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <a class="btn">Cart</a>
+            <!-------cart------------>
+
+            {% if username %}
+            <a href="/cart/{{username}}" class="btn mx-1">Cart</a>
+            {% else %}
+            <a href="/login" class="btn mx-1">Cart</a>
+            {% endif %}
+            <!--------cart end-------------->
+
+
+            <!--------login / logout-------------->
             {% if username %}
             <div class="btn-group">
                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -87,5 +111,111 @@
 {% block content %}
 {% endblock %}
 
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-white text-muted">
+    <!-- Section: Social media -->
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+            <span>Get connected with us on social networks:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+            <a href="https://www.facebook.com/minhaj.uddin.921025" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/minhaj-uddin-a61427174/" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/minhajuddiniimt" target="_blank" class="me-4 text-reset">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+        <!-- Right -->
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-left text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        <i class="fas fa-gem me-3"></i>Online Computer Store
+                    </h6>
+                    <p class="justify-content-center justify-content-between">
+                        Our aim is to develop a highly sophisticated and secure online computer store portal, which is
+                        the enhancement of ecommerce website. I will provide all type of hardware device and software
+                        with affordable prices.
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        Useful links
+                    </h6>
+                    <p>
+                        <a href="{{url_for('index')}}" class="text-reset">Home</a>
+                    </p>
+                    <p>
+                        <a href="{{url_for('about')}}" class="text-reset">About</a>
+                    </p>
+                    <p>
+                        <a href="{{url_for('login')}}" class="text-reset">login</a>
+                    </p>
+
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">
+                        Products
+                    </h6>
+                    <p>
+                        <a href="/products_data/hardware" class="text-reset">Hardware</a>
+                    </p>
+                    <p>
+                        <a href="/products_data/software" class="text-reset">Software</a>
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                    <p><i class="fas fa-home me-3"></i> Jamia Millia Islamia, New Delhi</p>
+                    <p>
+                        <i class="fas fa-envelope me-3"></i>
+                        info@ocs.com
+                    </p>
+                    <p><i class="fas fa-phone me-3"></i> +91 9667716408</p>
+                    <p><i class="fas fa-print me-3"></i> +91 9667716408</p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2022 Copyright:
+        <a class="text-reset fw-bold" href="#">ocs.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+<!-- Footer -->
 </body>
 </html>

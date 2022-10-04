@@ -16,12 +16,15 @@ cursor = db.cursor();
 #db.commit()
 
 # fetch data from database
-cursor.execute("Select * from user")
-ks = cursor.fetchall()
-for i in ks:
-    print(i)
+cursor.execute("Select * from product")
+products = cursor.fetchall()
+p_hardware = list()
+for product in products:
+    if 'Hardware' in product:
+        print(product)
+        p_hardware.append(product)
+print(len(p_hardware))
 
 # fetchmany
 # fetchone
-print(ks)
 

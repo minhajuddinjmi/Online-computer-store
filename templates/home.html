@@ -31,7 +31,7 @@
     padding-right:100px;
   }
   .carousel-caption h5{
-    font-size:100px;
+    font-size:80px;
     font-weight:700;
   }
   .carousel-caption p{
@@ -61,6 +61,9 @@
 
 
 
+
+
+
 </style>
 <!-- slider-->
 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
@@ -79,7 +82,9 @@
                 <h5>Welcome to online Computer store</h5>
                 <p>We provide all computer relater product software as well as hardware</p>
                 <div class="slider-btn">
-                    <button class="btn btn-1">Our Servises</button>
+                    <a href="/products">
+                        <button class="btn btn-1">Our Products</button>
+                    </a>
 
                 </div>
             </div>
@@ -90,8 +95,8 @@
                 <h5>Software Product</h5>
                 <p>Some representative placeholder content for the second slide.</p>
                 <div class="slider-btn">
-                    <a href="{{url_for('product_software')}}">
-                        <button class="btn btn-1">software</button>
+                    <a href="/products_data/software">
+                        <button class="btn btn-1">Software</button>
                     </a>
 
                 </div>
@@ -103,7 +108,7 @@
                 <h5>Hardware Product</h5>
                 <p>Some representative placeholder content for the third slide.</p>
                 <div class="slider-btn">
-                    <a href="{{url_for('product_hardware')}}">
+                    <a href="/products_data/hardware">
                         <button class="btn btn-1">Hardware</button>
                     </a>
 
@@ -132,25 +137,27 @@
             <div class="owl-carousel owl-theme">
 
                 {% for product in hardware_products %}
-                <div class="item mb-4 m-2">
-                    <div class="card border-0 shadow">
-                        <img src="{{product[-1]}}" width="400" height="300" class="card-img-top"
-                             alt="image">
-                        <div class="card-body">
-                            <h5 class="card-title">{{product[1]}}</h5>
+                <a href="/product/{{product[0]}}" style="text-decoration:none;color:black">
+                    <div class="item mb-4 m-2">
+                        <div class="card border-0 shadow">
+                            <img src="{{product[-1]}}" width="400" height="300" class="card-img-top"
+                                 alt="image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product[1]}}</h5>
 
-                            <p class="card-text"><strong>Price</strong></p>
-                            <p class="card-text"><strong>Rs. {{product[2]}}</strong></p>
-                            <!--<textarea class="card-text"
-                                      style="height:100px;border:0;background:None;width:200px;overflow:auto" rows="4"
-                                      cols="50" maxlength="100" disabled>{{product[3]}}</textarea>-->
+                                <p class="card-text"><strong>Price</strong></p>
+                                <p class="card-text"><strong>Rs. {{product[2]}}</strong></p>
+                                <!--<textarea class="card-text"
+                                          style="height:100px;border:0;background:None;width:200px;overflow:auto" rows="4"
+                                          cols="50" maxlength="100" disabled>{{product[3]}}</textarea>-->
 
-                            <p>{{product[3][:100]+"...."}}</p>
+                                <p>{{product[3][:100]+"...."}}</p>
+                            </div>
+
+
                         </div>
-
-
                     </div>
-                </div>
+                </a>
                 {% endfor %}
 
             </div>
@@ -169,25 +176,27 @@
         <div class="row mt-5">
             <div class="owl-carousel owl-theme">
                 {% for product in software_products %}
-                <div class="item mb-4 m-2">
-                    <div class="card border-0 shadow">
-                        <img src="{{product[-1]}}" width="400" height="300" class="card-img-top"
-                             alt="image">
-                        <div class="card-body">
-                            <h5 class="card-title">{{product[1]}}</h5>
+                <a href="/product/{{product[0]}}" style="text-decoration:none;color:black">
+                    <div class="item mb-4 m-2">
+                        <div class="card border-0 shadow">
+                            <img src="{{product[-1]}}" width="400" height="300" class="card-img-top"
+                                 alt="image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product[1]}}</h5>
 
-                            <p class="card-text"><strong>Price</strong></p>
-                            <p class="card-text"><strong>Rs. {{product[2]}}</strong></p>
-                            <!--<textarea class="card-text"
-                                      style="height:100px;border:0;background:None;width:200px;overflow:auto" rows="4"
-                                      cols="50" maxlength="100" disabled>{{product[3]}}</textarea>-->
+                                <p class="card-text"><strong>Price</strong></p>
+                                <p class="card-text"><strong>Rs. {{product[2]}}</strong></p>
+                                <!--<textarea class="card-text"
+                                          style="height:100px;border:0;background:None;width:200px;overflow:auto" rows="4"
+                                          cols="50" maxlength="100" disabled>{{product[3]}}</textarea>-->
 
-                            <p>{{product[3][:100]+"...."}}</p>
+                                <p>{{product[3][:100]+"...."}}</p>
+                            </div>
+
+
                         </div>
-
-
                     </div>
-                </div>
+                </a>
                 {% endfor %}
 
 
@@ -196,6 +205,7 @@
 
     </div>
 </section>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -222,6 +232,9 @@
         }
     }
 })
+
+
+
 
 </script>
 {% endblock %}

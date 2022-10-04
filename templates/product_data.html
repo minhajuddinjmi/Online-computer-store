@@ -12,7 +12,7 @@
             </div>
 
             <div class="modal-body">
-                <form action="/product_data/product_add" method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
                     <div class="form-inline">
                         <label for="productid">Product id</label>
                         <input type="text" class="form-control" for="productid" name="productid" id="productid"
@@ -76,25 +76,26 @@
                 <th scope="col">Product Id</th>
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
+                <th scope="col">Details</th>
                 <th scope="col">Category</th>
-                <th scope="col">Company</th>
-                <th scope="col">Image</th>
+                <th scope="col">CompanyId</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
 
-            {% for product in products %}
+            {% for i in range(length) %}
             <tr>
-                <th scope="row">1</th>
-                <td>{{product[0]}}</td>
-                <td>{{product[1]}}</td>
-                <td>{{product[2]}}</td>
-                <td>{{product[3]}}</td>
-                <td>{{product[4]}}</td>
-                <td>{{product[5]}}</td>
+                <th scope="row">{{i+1}}</th>
+                <td>{{products[i][0]}}</td>
+                <td>{{products[i][1]}}</td>
+                <td>{{products[i][2]}}</td>
+                <td>{{products[i][3]}}</td>
+                <td>{{products[i][4]}}</td>
+                <td>{{products[i][5]}}</td>
                 <td>
-                    <button class="btn btn-danger"> Delete</button>
+                    <button class="btn btn-primary d-flex"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger d-flex"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>
             {% endfor %}
