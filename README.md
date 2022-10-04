@@ -19,7 +19,7 @@ We are provide to better platform to get easily the software and hardware, which
     * Bootstrap (Front-end)
     * Jinja templates
 3. Framework
-  * Flask
+    * Flask
 
 ## Functionalities:
 In this ecommerce project, we will provide many functionalities as follows: 
@@ -32,7 +32,7 @@ In this ecommerce project, we will provide many functionalities as follows:
 7.	Feedback/Comments
 8.	Search by name
 9.	Order place / Checkout
-10.	Filter option
+10. Filter option
     * By price
 
 
