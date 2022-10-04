@@ -1,4 +1,5 @@
 # Online-computer-store
+![image](https://user-images.githubusercontent.com/52215059/193737146-b119754a-e8c1-484d-9932-af63b9cff6ea.png)
 
 ## Ojective
 Our aim is to develop a highly sophisticated and secure online computer store portal, which is the enhancement of ecommerce website. I will provide all type of hardware device and software with minimum prices.
