@@ -1,9 +1,9 @@
 {% extends "index.html" %}
 
 {% block content %}
-<!-- Modal -->
+<!-- Modal for add product-------------- -->
 <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,26 +12,26 @@
             </div>
 
             <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data" for="addProduct">
                     <div class="form-inline">
                         <label for="productid">Product id</label>
                         <input type="text" class="form-control" for="productid" name="productid" id="productid"
-                               placeholder="Enter Product id" required>
+                            placeholder="Enter Product id" required>
                     </div>
                     <div class="from-inline">
                         <label for="product_name">Product Name</label>
                         <input type="text" class="form-control" id="product_name" name="product_name" for="product_name"
-                               placeholder="Enter product name" required>
+                            placeholder="Enter product name" required>
                     </div>
                     <div class="from-inline">
                         <label for="price">Price</label>
                         <input type="number" class="form-control" id="price" name="price" for="price"
-                               placeholder="Enter price" required>
+                            placeholder="Enter price" required>
                     </div>
                     <div class="from-inline">
                         <label for="detail">Price</label>
                         <textarea type="textarea" class="form-control" id="detail" name="detail" for="detail"
-                                  placeholder="Enter detail" required></textarea>
+                            placeholder="Enter detail" required></textarea>
                     </div>
                     <div class="from-inline">
                         <label for="category">Category</label>
@@ -45,60 +45,105 @@
                     <div class="from-inline">
                         <label for="company_id">Company Id</label>
                         <input type="text" class="form-control" id="company_id" name="company_id" for="company_id"
-                               placeholder="Enter company id" required>
+                            placeholder="Enter company id" required>
                     </div>
                     <div class="from-inline">
                         <label for="image">Image</label>
                         <input type="file" class="form-control" id="image" name="image" for="image"
-                               placeholder="Enter image" required>
+                            placeholder="Enter image" required>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <input type="submit" class="btn btn-primary" value="addProduct" name="addProduct" id="addProduct"/>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
-
-
 <div class="container">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Add Product
     </button>
 
 
+    <!--------------------model for delete prdocut----------->
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+            
+          </button>
+        </div>
+        <form method="post">
+        <div class="modal-body">
+            <p>Are you sure delete this product?</p>
+            <input type="text" name="product_id" id="product_id">
+            <input type="text" name="product_id" id="product_id" style="border: none;background: none;" disabled>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-danger" value="delete" name="delete" />
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <script>
+        function warningDelete(a) {
+            console.log(a);
+            document.getElementById("product_id").value = a;
+            console.log("success");
+        }
+
+    </script>
+
     <div class="jumbotron">
         <table class="table table-striped">
             <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Product Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Details</th>
-                <th scope="col">Category</th>
-                <th scope="col">CompanyId</th>
-                <th scope="col"></th>
-            </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">CompanyId</th>
+                    <th scope="col"></th>
+                </tr>
             </thead>
             <tbody>
 
-            {% for i in range(length) %}
-            <tr>
-                <th scope="row">{{i+1}}</th>
-                <td>{{products[i][0]}}</td>
-                <td>{{products[i][1]}}</td>
-                <td>{{products[i][2]}}</td>
-                <td>{{products[i][3]}}</td>
-                <td>{{products[i][4]}}</td>
-                <td>{{products[i][5]}}</td>
-                <td>
-                    <button class="btn btn-primary d-flex"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-danger d-flex"><i class="fas fa-trash"></i></button>
-                </td>
-            </tr>
-            {% endfor %}
+                {% for i in range(length) %}
+                <tr>
+                    <th scope="row">{{i+1}}</th>
+                    <td id="{{products[i][0]}}">{{products[i][0]}}</td>
+                    <td>{{products[i][1]}}</td>
+                    <td>{{products[i][2]}}</td>
+                    <td>{{products[i][3]}}</td>
+                    <td>{{products[i][4]}}</td>
+                    <td>{{products[i][5]}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal"
+                            onclick="warningDelete('{{products[i][0]}}')">
+                            delete
+                          </button>
+
+
+                        <!-- <form method="post">
+                            onclick="myFunction('{{products[i][0]}}')"
+                            <input type="text" value="{{products[i][0]}}" name="product_id">
+                            <input type="submit" class="btn btn-primary" value="edit" name="edit"/>
+                            <input type="submit" class="btn btn-danger" value="delete" name="delete" />
+                        </form> -->
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

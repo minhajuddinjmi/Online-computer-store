@@ -4,6 +4,8 @@ import os
 from werkzeug.utils import secure_filename
 import datetime
 from flask_paginate import Pagination, get_page_args
+from sql_query import *
+
 
 app = Flask(__name__)
 
@@ -22,6 +24,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 db = c.connect(host="localhost", user="root", password="12345", database="ecommerce_project")
 if db.is_connected():
     print(True)
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -74,16 +77,31 @@ def pagination(pageNumber):
     return [lower, upper]
 
 
-# Home page: this is home page if you are login or logout, it doesn't matter. this page is available for all user.
-@app.route('/')
-@app.route("/home")
-def index():
+def usernme_cart():
     global user
     username = None
+    cart_c = None
     try:
         username = user[0][0]
     except Exception as e:
         pass
+    if username:
+        cursor = db.cursor()
+        query = "select count(*) from cart where username='{}';"
+        cursor.execute(query.format(username))
+        cart_c = cursor.fetchall()
+        cart_c = cart_c[0][0]
+        print(cart_c)
+        # cart = cart_count(username)
+
+    return [username, cart_c]
+
+
+# Home page: this is home page if you are login or logout, it doesn't matter. this page is available for all user.
+@app.route('/')
+@app.route("/home")
+def index():
+    username, cart = usernme_cart()
 
     # fetch the hardware product data with limit 10 from ecommerce_project database
     cursor = db.cursor()
@@ -96,34 +114,24 @@ def index():
     cursor.execute("Select * from product where p_category='Software' limit 10")
     software_products = cursor.fetchall()
     # print(software_products)
-    return render_template("home.html", username=username, hardware_products=hardware_products,
+    return render_template("home.html", username=username, cart=cart, hardware_products=hardware_products,
                            software_products=software_products)
 
 
 # About page
 @app.route("/about")
 def about():
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
-    return render_template("about.html", username=username, )
+    return render_template("about.html", username=username, cart=cart)
 
 
 # Contact us page
 @app.route("/contactus")
 def contactus():
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
-    return render_template("contactus.html", username=username)
+    return render_template("contactus.html", username=username, cart=cart)
 
 
 products_d = list(product_data())
@@ -137,12 +145,7 @@ def get_products(offset=0, per_page=10):
 @app.route("/products/")
 @app.route("/products_data")
 def products(pageNumber=1):
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
 
@@ -159,6 +162,7 @@ def products(pageNumber=1):
     # products = cursor.fetchall()
     #
     return render_template("products.html", username=username,
+                           cart=cart,
                            products=pagination_product,
                            category="All",
                            page=page,
@@ -182,12 +186,7 @@ def get_products_category(offset=0, per_page=10, category='hardware'):
 # Product category page: here the product are available according to category
 @app.route("/products_data/<category>")
 def products_category(category):
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
     page, per_page, offset = get_page_args(page_parameter='page',
                                            per_page_parameter='per_page')
@@ -207,6 +206,7 @@ def products_category(category):
 
     category = category.capitalize()
     return render_template("products.html", username=username,
+                           cart=cart,
                            products=pagination_product,
                            category=category,
                            page=page,
@@ -217,12 +217,7 @@ def products_category(category):
 # product page: where you can see all the product detail and add to cart option if you have login to the account
 @app.route("/product/<productId>", methods=['POST', 'GET'])
 def product_page(productId):
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
     cursor = db.cursor()
     cursor.execute("Select * from product where p_id='{}'".format(productId))
@@ -295,19 +290,15 @@ def product_page(productId):
             except Exception as e:
                 print(e)
 
-    return render_template("product_page.html", username=username, productId=productId, product_info=product_info,
+    return render_template("product_page.html", username=username, cart=cart, productId=productId,
+                           product_info=product_info,
                            alert=alert, comments=comments)
 
 
 # Show add the comments of user by using product id
 @app.route("/product/<productId>/comments")
 def all_comments(productId):
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
     cursor = db.cursor()
     cursor.execute(
@@ -315,9 +306,8 @@ def all_comments(productId):
             productId))
     comments = cursor.fetchall()
 
-    return render_template("comments.html", username=username,
+    return render_template("comments.html", username=username, cart=cart,
                            comments=comments)
-
 
 
 def get_products_search(offset=0, per_page=10, name=''):
@@ -334,16 +324,12 @@ def get_products_search(offset=0, per_page=10, name=''):
 
     return [p_result[offset: offset + per_page], len(p_result)]
 
+
 # Search by name
 @app.route("/search", methods=['POST', 'GET'])
 @app.route("/search/<name>")
 def search(name=""):
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
     if request.method == 'POST':
         name = request.form['search']
@@ -362,12 +348,12 @@ def search(name=""):
                             css_framework='bootstrap5')
 
     return render_template("products.html", username=username,
+                           cart=cart,
                            products=pagination_product,
                            category="All",
                            page=page,
                            per_page=10,
                            pagination=pagination)
-
 
     # cursor = db.cursor()
     # cursor.execute("Select * from product where  p_name like'%{}%'".format(name))
@@ -394,9 +380,10 @@ def login():
         print(type(user))
         if len(user) == 1:
             print("Longin successfully")
-            return redirect("/home")
-        else:
             return redirect("/")
+        else:
+            warning = "Check the login credential!"
+            return render_template("login.html", warning=warning)
 
     return render_template("login.html")
 
@@ -435,12 +422,7 @@ def thankyou():
 
 @app.route("/cart/<userName>", methods=['POST', 'GET'])
 def cart(userName):
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart_c = usernme_cart()
 
     cursor = db.cursor()
     cursor.execute(
@@ -472,32 +454,24 @@ def cart(userName):
         print("delete success")
         return redirect("/cart/productId")
 
-    return render_template("cart.html", username=username, carts=carts, total_sum=total_sum, shipping=shipping,
+    return render_template("cart.html", username=username, cart=cart_c, carts=carts, total_sum=total_sum,
+                           shipping=shipping,
                            product_sum=product_sum, number_of_items=len(carts))
 
 
 # TODO: add login change
 @app.route("/admin")
 def admin():
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
     if check_admin_login():
-        return render_template("admin.html", username=username)
+        return render_template("admin.html", username=username, cart=cart)
     return redirect("/login")
 
 
 @app.route("/company_data")
 def company_data():
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
+
     if check_admin_login():
         cursor = db.cursor()
         cursor.execute("Select * from company")
@@ -505,7 +479,7 @@ def company_data():
         for i in company:
             print(i)
 
-        return render_template("company_data.html", company=company, username=username)
+        return render_template("company_data.html", company=company, cart=cart, username=username)
     return redirect("/login")
 
 
@@ -516,14 +490,9 @@ def update_product():
     products_d = cursor.fetchall()
 
 
-@app.route("/product_data/",  methods=['POST', 'GET'])
+@app.route("/product_data/", methods=['POST', 'GET'])
 def product_data():
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
 
     if check_admin_login():
         # product = product_data()
@@ -533,51 +502,70 @@ def product_data():
         cursor = db.cursor()
         cursor.execute("Select * from product")
         products = cursor.fetchall()
-        for i in range(len(products)):
-            print(products[i])
+        # for i in range(len(products)):
+        #     print(products[i])
+
+
 
         if (request.method == "POST"):
-            data = request.form.to_dict()
-            print(data)
-            f = request.files['image']
-            # f.save()
-            filename = data['productid'] + '.' + secure_filename(f.filename.split(".")[-1])
 
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            if request.form.get('edit') == 'edit':
+                p_id = request.form.get("product_id")
+                print(p_id)
+                print("eidt")
 
-            print(data)
-            db = c.connect(host="localhost", user="root", password="12345", database="ecommerce_project")
-            if db.is_connected():
-                print(True)
+            elif  request.form.get('delete') == 'delete':
+                p_id = request.form.get("product_id")
+                print(p_id)
+                cursor = db.cursor()
+                p_img = p_id + ".jpg"
+                print(p_img)
+                path = os.path.join(app.config['UPLOAD_FOLDER'], p_img)
+                print(path)
+                os.remove(path)
+                cursor.execute("delete from product where p_id='{}'".format(p_id))
+                db.commit()
+                print("delete successfully: {}".format(p_id))
+                update_product()
+                print("----------------------------------------------------------------------")
 
-            cursor = db.cursor()
+            elif request.form.get('addProduct') == 'addProduct':
+                print("addProduct............................................")
+                data = request.form.to_dict()
+                print(data)
+                f = request.files['image']                # f.save()
+                filename = data['productid'] + '.' + secure_filename(f.filename.split(".")[-1])
+                f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                print(data)
+                db = c.connect(host="localhost", user="root", password="12345", database="ecommerce_project")
+                if db.is_connected():
+                    print(True)
 
-            cursor.execute("insert into product values ('{}','{}','{}', '{}','{}','{}','{}');".format(data['productid'],
-                                                                                                      data[
-                                                                                                          'product_name'],
-                                                                                                      data['price'],
-                                                                                                      data['detail'],
-                                                                                                      data['category'],
-                                                                                                      data[
-                                                                                                          'company_id'],
-                                                                                                      str(os.path.join(
-                                                                                                          app.config[
-                                                                                                              'UPLOAD_FOLDER']) + filename)))
-            db.commit()
-            update_product()
+                cursor = db.cursor()
+
+                cursor.execute("insert into product values ('{}','{}','{}', '{}','{}','{}','{}');".format(data['productid'],
+                                                                                                            data[
+                                                                                                                'product_name'],
+                                                                                                            data['price'],
+                                                                                                            data['detail'],
+                                                                                                            data['category'],
+                                                                                                            data[
+                                                                                                                'company_id'],
+                                                                                                            str(os.path.join(
+                                                                                                                app.config[
+                                                                                                                    'UPLOAD_FOLDER']) + filename)))
+                db.commit()
+                update_product()
+                print("Product add successfully.........................................")
             return redirect(request.referrer)
-        return render_template("product_data.html", products=products, username=username, length=len(products))
+        return render_template("product_data.html", products=products, username=username, cart=cart,
+                               length=len(products))
     return redirect("/login")
 
-
-@app.route("/user_data")
+@app.route("/user_data", methods=['POST', 'GET'])
 def user_data():
-    global user
-    username = None
-    try:
-        username = user[0][0]
-    except Exception as e:
-        pass
+    username, cart = usernme_cart()
+
     if check_admin_login():
         db = c.connect(host="localhost", user="root", password="12345", database="ecommerce_project")
         if db.is_connected():
@@ -588,8 +576,24 @@ def user_data():
         for i in users:
             print(i)
         # users = user_data()
-        return render_template("user_data.html", username=username, users=users)
+
+        if request.method == "POST":
+            print("REMOVE DATA")
+            print("--------------------------------")
+            cursor = db.cursor()
+            user_c = request.form.to_dict()
+            user_c = user_c['user_c']
+            print(user_c)
+            query = "delete from user where username='{}';".format(user_c)
+            print(query)
+            cursor.execute(query)
+            db.commit()
+            print("Successfully delete user: ", user_c)
+            return redirect(request.referrer)
+
+        return render_template("user_data.html", username=username, cart=cart, users=users, length=len(users))
     return redirect("/login")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

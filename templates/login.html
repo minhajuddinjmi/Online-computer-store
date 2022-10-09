@@ -4,7 +4,7 @@
 
 
 
-<div class="container">
+<div class="container" style="min-height:80vh">
     <h2>Login</h2>
     <form method="POST">
 
@@ -26,6 +26,12 @@
         <button type="submit" class="btn btn-primary">login</button>
     </form>
     <a href="{{url_for('signup')}}">click here for sign up</a>
+
+    {% if warning %}
+    <div class="alert alert-danger mt-3">
+        <strong>Alert! </strong>{{warning}}
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}
