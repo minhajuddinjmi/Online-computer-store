@@ -371,8 +371,11 @@ def login():
         password = request.form['password']
         print(email, password)
 
-        cursor = db.cursor()
+        db = c.connect(host="localhost", user="root", password="12345", database="ecommerce_project")
+        if db.is_connected():
+            print(True)
 
+        cursor = db.cursor()
         cursor.execute("Select * from user where email='{}' and password='{}'".format(email, password))
         global user
         user = cursor.fetchall()
